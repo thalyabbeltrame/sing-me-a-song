@@ -3,3 +3,4 @@
 .wakatime-project
 .env
 .env.test
+/coverage

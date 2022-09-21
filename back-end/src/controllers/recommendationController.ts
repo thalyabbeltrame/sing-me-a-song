@@ -34,21 +34,21 @@ async function downvote(req: Request, res: Response) {
 async function random(req: Request, res: Response) {
   const randomRecommendation = await recommendationService.getRandom();
 
-  res.send(randomRecommendation);
+  res.status(200).send(randomRecommendation);
 }
 
 async function get(req: Request, res: Response) {
   const recommendations = await recommendationService.get();
 
-  res.send(recommendations);
+  res.status(200).send(recommendations);
 }
 
 async function getTop(req: Request, res: Response) {
-  const { amount } = req.params;
+  const amount = parseInt(req.params.amount) || 0;
 
   const recommendations = await recommendationService.getTop(+amount);
 
-  res.send(recommendations);
+  res.status(200).send(recommendations);
 }
 
 async function getById(req: Request, res: Response) {
@@ -56,7 +56,7 @@ async function getById(req: Request, res: Response) {
 
   const recommendation = await recommendationService.getById(+id);
 
-  res.send(recommendation);
+  res.status(200).send(recommendation);
 }
 
 export const recommendationController = {
