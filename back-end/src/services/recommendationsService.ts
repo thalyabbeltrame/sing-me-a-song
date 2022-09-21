@@ -12,7 +12,7 @@ async function insert(createRecommendationData: CreateRecommendationData) {
   if (existingRecommendation)
     throw conflictError('Recommendations names must be unique');
 
-  await recommendationRepository.create(createRecommendationData);
+  return await recommendationRepository.create(createRecommendationData);
 }
 
 async function upvote(id: number) {

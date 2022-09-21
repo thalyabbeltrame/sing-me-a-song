@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "es2022",
     "module": "commonjs",
-    "rootDir": "./src",
     "typeRoots": ["./node_modules/@types", "./src/dtos"],
     "allowJs": true,
     "outDir": "./dist",
@@ -12,6 +11,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "**/*.test.ts"],
   "exclude": ["node_modules", "dist"]
 }

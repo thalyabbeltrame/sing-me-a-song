@@ -4,7 +4,7 @@ import { prisma } from '../config/prisma';
 import { CreateRecommendationData } from '../services/recommendationsService';
 
 async function create(createRecommendationData: CreateRecommendationData) {
-  await prisma.recommendation.create({
+  return await prisma.recommendation.create({
     data: createRecommendationData,
   });
 }
