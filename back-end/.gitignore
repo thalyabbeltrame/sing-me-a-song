@@ -1,0 +1,5 @@
+/dist
+/node_modules
+.wakatime-project
+.env
+.env.test
