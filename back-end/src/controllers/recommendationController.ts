@@ -24,11 +24,11 @@ async function upvote(req: Request, res: Response) {
 }
 
 async function downvote(req: Request, res: Response) {
-  const { id } = req.params;
+  const id = parseInt(req.params.id) || 0;
 
-  await recommendationService.downvote(+id);
+  const recommendation = await recommendationService.downvote(+id);
 
-  res.sendStatus(200);
+  res.status(200).send(recommendation);
 }
 
 async function random(req: Request, res: Response) {

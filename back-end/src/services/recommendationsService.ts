@@ -30,8 +30,10 @@ async function downvote(id: number) {
   );
 
   if (updatedRecommendation.score < -5) {
-    await recommendationRepository.remove(id);
+    return await recommendationRepository.remove(id);
   }
+
+  return updatedRecommendation;
 }
 
 async function getByIdOrFail(id: number) {
