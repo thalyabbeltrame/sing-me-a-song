@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-import { prisma } from '../database';
+import { prisma } from '../config/prisma';
 import { CreateRecommendationData } from '../services/recommendationsService';
 
 async function create(createRecommendationData: CreateRecommendationData) {

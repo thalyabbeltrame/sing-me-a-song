@@ -4,7 +4,10 @@
   "description": "",
   "main": "./src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.ts"
+    "test": "dotenv -e .env.test -- npx prisma migrate dev && dotenv -e .env.test -- npx prisma db seed && jest -i",
+    "build": "npx tsc",
+    "dev": "NODE_ENV=dev ts-node-dev --respawn --transpile-only --exit-child --ignore-watch node_modules ./src/server.ts",
+    "start": "node ./dist/server.js"
   },
   "keywords": [],
   "author": "",
