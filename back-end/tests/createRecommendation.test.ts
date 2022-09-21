@@ -14,10 +14,10 @@ afterAll(async () => {
   prisma.$disconnect();
 });
 
-describe('POST /recommendation', () => {
-  it('Should return 201 and the created recommendation', async () => {
-    const newRecommendation = recommendationFactory.createNew();
+describe('POST /recommendations', () => {
+  const newRecommendation = recommendationFactory.createNew();
 
+  it('Should return 201 and the created recommendation', async () => {
     const response = await supertest(app)
       .post('/recommendations')
       .send(newRecommendation);
@@ -30,7 +30,6 @@ describe('POST /recommendation', () => {
   });
 
   it('Should return 409 if the name is already in use', async () => {
-    const newRecommendation = recommendationFactory.createNew();
     await prisma.recommendation.create({
       data: newRecommendation,
     });
@@ -44,8 +43,6 @@ describe('POST /recommendation', () => {
   });
 
   it('Should return 422 when body is invalid', async () => {
-    const newRecommendation = recommendationFactory.createNew();
-
     const response = await supertest(app)
       .post('/recommendations')
       .send({

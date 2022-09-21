@@ -16,11 +16,11 @@ async function insert(req: Request, res: Response) {
 }
 
 async function upvote(req: Request, res: Response) {
-  const { id } = req.params;
+  const id = parseInt(req.params.id) || 0;
 
-  await recommendationService.upvote(+id);
+  const recommendation = await recommendationService.upvote(+id);
 
-  res.sendStatus(200);
+  res.status(200).send(recommendation);
 }
 
 async function downvote(req: Request, res: Response) {
