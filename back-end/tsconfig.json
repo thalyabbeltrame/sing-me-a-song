@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2022",
     "module": "commonjs",
-    "typeRoots": ["./node_modules/@types", "./src/dtos"],
+    "typeRoots": ["./node_modules/@types"],
     "allowJs": true,
     "outDir": "./dist",
     "removeComments": true,

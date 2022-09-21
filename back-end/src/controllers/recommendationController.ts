@@ -39,6 +39,7 @@ async function random(req: Request, res: Response) {
 
 async function get(req: Request, res: Response) {
   const recommendations = await recommendationService.get();
+
   res.send(recommendations);
 }
 
@@ -46,13 +47,15 @@ async function getTop(req: Request, res: Response) {
   const { amount } = req.params;
 
   const recommendations = await recommendationService.getTop(+amount);
+
   res.send(recommendations);
 }
 
 async function getById(req: Request, res: Response) {
-  const { id } = req.params;
+  const id = parseInt(req.params.id) || 0;
 
   const recommendation = await recommendationService.getById(+id);
+
   res.send(recommendation);
 }
 
