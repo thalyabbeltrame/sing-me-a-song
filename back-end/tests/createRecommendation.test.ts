@@ -39,7 +39,10 @@ describe('POST /recommendations', () => {
       .send(newRecommendation);
 
     expect(response.status).toBe(409);
-    expect(response.body).toHaveProperty('type');
+    expect(response.body).toEqual({
+      type: 'conflict',
+      message: 'Recommendations names must be unique',
+    });
   });
 
   it('Should return 422 when body is invalid', async () => {
@@ -51,6 +54,9 @@ describe('POST /recommendations', () => {
       });
 
     expect(response.status).toBe(422);
-    expect(response.body).toHaveProperty('type');
+    expect(response.body).toEqual({
+      type: 'wrong_schema',
+      message: '',
+    });
   });
 });

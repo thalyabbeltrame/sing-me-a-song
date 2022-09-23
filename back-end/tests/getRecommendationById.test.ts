@@ -33,6 +33,9 @@ describe('GET /recommendations/:id', () => {
     const response = await supertest(app).get('/recommendations/1').send();
 
     expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty('type');
+    expect(response.body).toEqual({
+      type: 'not_found',
+      message: '',
+    });
   });
 });

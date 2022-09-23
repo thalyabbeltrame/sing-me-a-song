@@ -55,6 +55,6 @@ describe('POST /recommendations/:id/downvote', () => {
       .send();
 
     expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty('type');
+    expect(response.body).toEqual({ type: 'not_found', message: '' });
   });
 });
