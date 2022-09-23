@@ -32,9 +32,6 @@ describe('insert', () => {
 
     expect(result).toEqual(recommendationResponse);
     expect(recommendationRepository.create).toHaveBeenCalledTimes(1);
-    expect(recommendationRepository.create).toHaveBeenCalledWith(
-      newRecommendation
-    );
   });
 
   it('Should throw an error if the recommendation already exists', async () => {
