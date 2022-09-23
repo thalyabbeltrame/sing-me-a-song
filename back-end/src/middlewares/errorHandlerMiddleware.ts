@@ -8,17 +8,15 @@ import {
 
 export function errorHandlerMiddleware(
   err: Error | AppError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) {
-  console.log(err);
-
   if (isAppError(err)) {
     return res
       .status(errorTypeToStatusCode(err.type))
       .send({ type: err.type, message: err.message });
   }
 
-  return res.sendStatus(500);
+  return res.status(500).send({ type: 'internal', message: err.message });
 }

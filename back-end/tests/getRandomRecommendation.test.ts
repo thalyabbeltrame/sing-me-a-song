@@ -21,7 +21,7 @@ describe('GET /recommendations/random', () => {
   it('Should return 200 and a random recommendation', async () => {
     await recommendationFactory.insertManyRecommendationsOnDB([
       { ...newRecommendations[0], score: -5 },
-      { ...newRecommendations[1], score: 10 },
+      { ...newRecommendations[1], score: 20 },
     ]);
 
     const response = await supertest(app).get('/recommendations/random');
