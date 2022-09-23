@@ -15,7 +15,8 @@ afterAll(async () => {
 });
 
 describe('POST /recommendations', () => {
-  const newRecommendation = recommendationFactory.createNew();
+  const newRecommendation =
+    recommendationFactory.generateRecommendationRequest();
 
   it('Should return 201 and the created recommendation', async () => {
     const response = await supertest(app)
@@ -30,9 +31,7 @@ describe('POST /recommendations', () => {
   });
 
   it('Should return 409 if the name is already in use', async () => {
-    await prisma.recommendation.create({
-      data: newRecommendation,
-    });
+    await recommendationFactory.insertRecommendationOnDB(newRecommendation);
 
     const response = await supertest(app)
       .post('/recommendations')

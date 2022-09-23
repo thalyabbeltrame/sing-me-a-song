@@ -15,11 +15,13 @@ afterAll(async () => {
 });
 
 describe('GET /recommendations', () => {
+  const newRecommendations =
+    recommendationFactory.generateManyRecommendationsRequest();
+
   it('Should return 200 and the list of recommendations', async () => {
-    const newRecommendation = recommendationFactory.createNew();
-    await prisma.recommendation.create({
-      data: newRecommendation,
-    });
+    await recommendationFactory.insertManyRecommendationsOnDB(
+      newRecommendations
+    );
 
     const response = await supertest(app).get('/recommendations').send();
 

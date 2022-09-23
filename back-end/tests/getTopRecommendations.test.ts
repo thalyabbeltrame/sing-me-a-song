@@ -15,14 +15,17 @@ afterAll(async () => {
 });
 
 describe('GET /recommendations/top/:amount', () => {
+  const newRecommendations =
+    recommendationFactory.generateManyRecommendationsRequest(10);
+
+  newRecommendations.map((recommendation, index) => {
+    recommendation.score = index + 1;
+  });
+
   it('Should return 200 and the top recommendations', async () => {
-    const amount = Math.floor(Math.random() * 10) + 1;
-    for (let i = 0; i < 10; i++) {
-      const newRecommendation = recommendationFactory.createNew();
-      await prisma.recommendation.create({
-        data: { ...newRecommendation, score: i },
-      });
-    }
+    const amount = await recommendationFactory.insertManyRecommendationsOnDB(
+      newRecommendations
+    );
 
     const response = await supertest(app)
       .get(`/recommendations/top/${amount}`)
@@ -31,6 +34,6 @@ describe('GET /recommendations/top/:amount', () => {
     expect(response.status).toBe(200);
     expect(response.body).toHaveLength(amount);
     expect(response.body).toBeInstanceOf(Array<Recommendation>);
-    expect(response.body[0].score).toBe(9);
+    expect(response.body[0].score).toBe(amount);
   });
 });

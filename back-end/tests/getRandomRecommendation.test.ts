@@ -15,14 +15,14 @@ afterAll(async () => {
 });
 
 describe('GET /recommendations/random', () => {
+  const newRecommendations =
+    recommendationFactory.generateManyRecommendationsRequest();
+
   it('Should return 200 and a random recommendation', async () => {
-    const newRecommendation = recommendationFactory.createNew();
-    await prisma.recommendation.createMany({
-      data: [
-        { ...newRecommendation, score: 20 },
-        { ...newRecommendation, name: 'Another name', score: 10 },
-      ],
-    });
+    await recommendationFactory.insertManyRecommendationsOnDB([
+      { ...newRecommendations[0], score: -5 },
+      { ...newRecommendations[1], score: 10 },
+    ]);
 
     const response = await supertest(app).get('/recommendations/random');
 

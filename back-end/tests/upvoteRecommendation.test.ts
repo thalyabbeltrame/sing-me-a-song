@@ -15,11 +15,12 @@ afterAll(async () => {
 });
 
 describe('POST /recommendations/:id/upvote', () => {
+  const newRecommendation =
+    recommendationFactory.generateRecommendationRequest();
+
   it('Should return 200 and the updated recommendation', async () => {
-    const newRecommendation = recommendationFactory.createNew();
-    const createdRecommendation = await prisma.recommendation.create({
-      data: newRecommendation,
-    });
+    const createdRecommendation =
+      await recommendationFactory.insertRecommendationOnDB(newRecommendation);
 
     const response = await supertest(app)
       .post(`/recommendations/${createdRecommendation.id}/upvote`)

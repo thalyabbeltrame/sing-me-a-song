@@ -15,11 +15,12 @@ afterAll(async () => {
 });
 
 describe('POST /recommendations/:id/downvote', () => {
+  const newRecommendation =
+    recommendationFactory.generateRecommendationRequest();
+
   it('Should return 200 and the updated recommendation', async () => {
-    const newRecommendation = recommendationFactory.createNew();
-    const createdRecommendation = await prisma.recommendation.create({
-      data: newRecommendation,
-    });
+    const createdRecommendation =
+      await recommendationFactory.insertRecommendationOnDB(newRecommendation);
 
     const response = await supertest(app)
       .post(`/recommendations/${createdRecommendation.id}/downvote`)
@@ -30,10 +31,11 @@ describe('POST /recommendations/:id/downvote', () => {
   });
 
   it('Should return 200 and delete the recommendation if score is -5', async () => {
-    const newRecommendation = recommendationFactory.createNew();
-    const createdRecommendation = await prisma.recommendation.create({
-      data: { ...newRecommendation, score: -5 },
-    });
+    const createdRecommendation =
+      await recommendationFactory.insertRecommendationOnDB({
+        ...newRecommendation,
+        score: -5,
+      });
 
     const response = await supertest(app)
       .post(`/recommendations/${createdRecommendation.id}/downvote`)
@@ -42,9 +44,10 @@ describe('POST /recommendations/:id/downvote', () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ ...createdRecommendation, score: -6 });
 
-    const deletedRecommendation = await prisma.recommendation.findUnique({
-      where: { id: createdRecommendation.id },
-    });
+    const deletedRecommendation =
+      await recommendationFactory.findRecommendationOnDB(
+        createdRecommendation.id
+      );
 
     expect(deletedRecommendation).toBeNull();
   });
