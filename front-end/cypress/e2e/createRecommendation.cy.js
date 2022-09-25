@@ -30,8 +30,6 @@ describe('Create Recommendation', () => {
       );
       expect(interception.response.body).to.have.property('score', 0);
     });
-
-    cy.url().should('equal', 'http://localhost:3000/');
   });
 
   it('Should throw an error if the recommendation already exists', async () => {

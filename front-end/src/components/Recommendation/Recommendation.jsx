@@ -1,11 +1,11 @@
-import styled from 'styled-components';
 import { useEffect } from 'react';
+import styled from 'styled-components';
 
+import { GoArrowDown, GoArrowUp } from 'react-icons/go';
 import ReactPlayer from 'react-player';
-import { GoArrowUp, GoArrowDown } from 'react-icons/go';
 
-import useUpvoteRecommendation from '../../hooks/api/useUpvoteRecommendation';
 import useDownvoteRecommendation from '../../hooks/api/useDownvoteRecommendation';
+import useUpvoteRecommendation from '../../hooks/api/useUpvoteRecommendation';
 
 export default function Recommendation({
   name,
@@ -45,8 +45,8 @@ export default function Recommendation({
       <Row>{name}</Row>
       <ReactPlayer url={youtubeLink} width='100%' height='100%' />
       <Row>
-        <GoArrowUp size='24px' onClick={handleUpvote} />
-        {score}
+        <GoArrowUp data-cy='upvote-button' size='24px' onClick={handleUpvote} />
+        <span data-cy='score'>{score}</span>
         <GoArrowDown size='24px' onClick={handleDownvote} />
       </Row>
     </Container>
