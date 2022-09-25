@@ -5,8 +5,6 @@ import { recommendationRepository } from '../../src/repositories/recommendationR
 import { recommendationService } from '../../src/services/recommendationsService';
 
 beforeEach(() => {
-  jest.restoreAllMocks();
-  jest.clearAllMocks();
   jest.resetAllMocks();
 });
 
@@ -33,8 +31,13 @@ describe('upvote', () => {
     );
 
     expect(result).toEqual({ ...recommendationResponse, score: 1 });
-    expect(recommendationRepository.find).toHaveBeenCalledTimes(1);
-    expect(recommendationRepository.updateScore).toHaveBeenCalledTimes(1);
+    expect(recommendationRepository.find).toHaveBeenCalledWith(
+      recommendationResponse.id
+    );
+    expect(recommendationRepository.updateScore).toHaveBeenCalledWith(
+      recommendationResponse.id,
+      'increment'
+    );
   });
 
   it('Should throw an error if the recommendation does not exist', async () => {
@@ -46,6 +49,9 @@ describe('upvote', () => {
       type: 'not_found',
       message: '',
     });
-    expect(recommendationRepository.find).toHaveBeenCalledTimes(1);
+    expect(recommendationRepository.find).toHaveBeenCalledWith(
+      recommendationResponse.id
+    );
+    expect(recommendationRepository.updateScore).not.toHaveBeenCalled();
   });
 });
