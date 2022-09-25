@@ -5,8 +5,6 @@ import { recommendationRepository } from '../../src/repositories/recommendationR
 import { recommendationService } from '../../src/services/recommendationsService';
 
 beforeEach(() => {
-  jest.restoreAllMocks();
-  jest.clearAllMocks();
   jest.resetAllMocks();
 });
 
@@ -26,15 +24,20 @@ describe('downvote', () => {
       .mockResolvedValueOnce(recommendationResponse);
     jest
       .spyOn(recommendationRepository, 'updateScore')
-      .mockResolvedValueOnce(recommendationResponse);
+      .mockResolvedValueOnce({ ...recommendationResponse, score: -1 });
 
     const result = await recommendationService.downvote(
       recommendationResponse.id
     );
 
-    expect(result).toEqual(recommendationResponse);
-    expect(recommendationRepository.find).toHaveBeenCalledTimes(1);
-    expect(recommendationRepository.updateScore).toHaveBeenCalledTimes(1);
+    expect(result).toEqual({ ...recommendationResponse, score: -1 });
+    expect(recommendationRepository.find).toHaveBeenCalledWith(
+      recommendationResponse.id
+    );
+    expect(recommendationRepository.updateScore).toHaveBeenCalledWith(
+      recommendationResponse.id,
+      'decrement'
+    );
   });
 
   it('Should downvote a recommendation and remove it if the score is less than -5', async () => {
@@ -53,9 +56,16 @@ describe('downvote', () => {
     );
 
     expect(result).toEqual({ ...recommendationResponse, score: -6 });
-    expect(recommendationRepository.find).toHaveBeenCalledTimes(1);
-    expect(recommendationRepository.updateScore).toHaveBeenCalledTimes(1);
-    expect(recommendationRepository.remove).toHaveBeenCalledTimes(1);
+    expect(recommendationRepository.find).toHaveBeenCalledWith(
+      recommendationResponse.id
+    );
+    expect(recommendationRepository.updateScore).toHaveBeenCalledWith(
+      recommendationResponse.id,
+      'decrement'
+    );
+    expect(recommendationRepository.remove).toHaveBeenCalledWith(
+      recommendationResponse.id
+    );
   });
 
   it('Should throw an error if the recommendation does not exist', async () => {
@@ -67,6 +77,10 @@ describe('downvote', () => {
       type: 'not_found',
       message: '',
     });
-    expect(recommendationRepository.find).toHaveBeenCalledTimes(1);
+    expect(recommendationRepository.find).toHaveBeenCalledWith(
+      recommendationResponse.id
+    );
+    expect(recommendationRepository.updateScore).not.toHaveBeenCalled();
+    expect(recommendationRepository.remove).not.toHaveBeenCalled();
   });
 });
