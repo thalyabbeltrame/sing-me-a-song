@@ -47,7 +47,7 @@ export default function Recommendation({
       <Row>
         <GoArrowUp data-cy='upvote-button' size='24px' onClick={handleUpvote} />
         <span data-cy='score'>{score}</span>
-        <GoArrowDown size='24px' onClick={handleDownvote} />
+        <GoArrowDown data-cy='downvote-button' size='24px' onClick={handleDownvote} />
       </Row>
     </Container>
   );
