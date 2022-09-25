@@ -5,8 +5,6 @@ import { recommendationRepository } from '../../src/repositories/recommendationR
 import { recommendationService } from '../../src/services/recommendationsService';
 
 beforeEach(() => {
-  jest.restoreAllMocks();
-  jest.clearAllMocks();
   jest.resetAllMocks();
 });
 
@@ -31,6 +29,9 @@ describe('insert', () => {
     const result = await recommendationService.insert(newRecommendation);
 
     expect(result).toEqual(recommendationResponse);
+    expect(recommendationRepository.findByName).toHaveBeenCalledWith(
+      newRecommendation.name
+    );
     expect(recommendationRepository.create).toHaveBeenCalledTimes(1);
   });
 
@@ -45,6 +46,9 @@ describe('insert', () => {
       type: 'conflict',
       message: 'Recommendations names must be unique',
     });
-    expect(recommendationRepository.findByName).toHaveBeenCalledTimes(1);
+    expect(recommendationRepository.findByName).toHaveBeenCalledWith(
+      newRecommendation.name
+    );
+    expect(recommendationRepository.create).not.toHaveBeenCalled();
   });
 });

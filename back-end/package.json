@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/server.js",
   "scripts": {
-    "test": "dotenv -e .env.test -- npx prisma migrate dev && jest -i --coverage",
+    "test": "dotenv -e .env.test -- npx prisma migrate dev && jest -i --coverage --detectOpenHandles --forceExit",
     "build": "npx tsc",
     "dev": "NODE_ENV=dev ts-node-dev --respawn --transpile-only --exit-child --ignore-watch node_modules ./src/server.ts",
     "start": "node ./dist/server.js"
