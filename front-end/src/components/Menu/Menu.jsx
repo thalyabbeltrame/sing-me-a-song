@@ -10,17 +10,17 @@ export default function Menu() {
 
   return (
     <StyledMenu>
-      <MenuItem onClick={() => navigate('/')}>
+      <MenuItem data-cy='home-page-button' onClick={() => navigate('/')}>
         <FaHome />
         Home
       </MenuItem>
 
-      <MenuItem onClick={() => navigate('/top')}>
+      <MenuItem data-cy='top-page-button' onClick={() => navigate('/top')}>
         <HiTrendingUp />
         Top
       </MenuItem>
 
-      <MenuItem onClick={() => navigate('/random')}>
+      <MenuItem data-cy='random-page-button' onClick={() => navigate('/random')}>
         <FiShuffle />
         Random
       </MenuItem>

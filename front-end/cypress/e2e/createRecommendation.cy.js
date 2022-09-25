@@ -20,15 +20,9 @@ describe('Create Recommendation', () => {
 
     cy.get('[data-cy=recommendation-submit-button]').click();
 
-    cy.wait('@createRecommendation').then((interception) => {
-      expect(interception.response.statusCode).to.eq(201);
-      expect(interception.response.body).to.have.property('id');
-      expect(interception.response.body).to.have.property('name', newRecommendation.name);
-      expect(interception.response.body).to.have.property(
-        'youtubeLink',
-        newRecommendation.youtubeLink
-      );
-      expect(interception.response.body).to.have.property('score', 0);
+    cy.wait('@createRecommendation').then(({ response }) => {
+      expect(response.statusCode).to.eq(201);
+      expect(response.body).to.have.property('name', newRecommendation.name);
     });
   });
 
@@ -43,12 +37,9 @@ describe('Create Recommendation', () => {
 
       cy.get('[data-cy=recommendation-submit-button]').click();
 
-      cy.wait('@createRecommendation').then((interception) => {
-        expect(interception.response.statusCode).to.eq(409);
-        expect(interception.response.body).to.have.property(
-          'message',
-          'Recommendations names must be unique'
-        );
+      cy.wait('@createRecommendation').then(({ response }) => {
+        expect(response.statusCode).to.eq(409);
+        expect(response.body).to.have.property('message', 'Recommendations names must be unique');
       });
 
       cy.on('window:alert', (str) => {
@@ -66,9 +57,9 @@ describe('Create Recommendation', () => {
 
     cy.get('[data-cy=recommendation-submit-button]').click();
 
-    cy.wait('@createRecommendation').then((interception) => {
-      expect(interception.response.statusCode).to.eq(422);
-      expect(interception.response.body).to.have.property('message', '');
+    cy.wait('@createRecommendation').then(({ response }) => {
+      expect(response.statusCode).to.eq(422);
+      expect(response.body).to.have.property('message', '');
     });
 
     cy.on('window:alert', (str) => {

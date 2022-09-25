@@ -20,7 +20,9 @@ export default function Home() {
         />
       ))}
 
-      {recommendations.length === 0 && <div>No recommendations yet! Create your own :)</div>}
+      {recommendations.length === 0 && (
+        <div data-cy='no-recommendation-msg'>No recommendations yet! Create your own :)</div>
+      )}
     </>
   );
 }
