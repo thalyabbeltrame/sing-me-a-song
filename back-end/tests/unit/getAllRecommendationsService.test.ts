@@ -6,8 +6,6 @@ import { recommendationService } from '../../src/services/recommendationsService
 import { recommendationFactory } from '../factories/recommendationFactory';
 
 beforeEach(() => {
-  jest.restoreAllMocks();
-  jest.clearAllMocks();
   jest.resetAllMocks();
 });
 
@@ -15,14 +13,22 @@ describe('get', () => {
   const newRecommendations =
     recommendationFactory.generateManyRecommendationsRequest();
 
+  const recommendationsResponse = newRecommendations.map(
+    (recommendation, index) => ({
+      id: index + 1,
+      ...recommendation,
+      score: 0,
+    })
+  );
+
   it('Should return the list of recommendations', async () => {
     jest
       .spyOn(recommendationRepository, 'findAll')
-      .mockResolvedValueOnce(newRecommendations as Recommendation[]);
+      .mockResolvedValueOnce(recommendationsResponse);
 
     const result = await recommendationService.get();
 
-    expect(result).toEqual(newRecommendations);
+    expect(result).toEqual(recommendationsResponse);
     expect(recommendationRepository.findAll).toHaveBeenCalledTimes(1);
   });
 });
