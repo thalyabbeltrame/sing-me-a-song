@@ -6,27 +6,32 @@ import { recommendationService } from '../../src/services/recommendationsService
 import { recommendationFactory } from '../factories/recommendationFactory';
 
 beforeEach(() => {
-  jest.restoreAllMocks();
-  jest.clearAllMocks();
   jest.resetAllMocks();
 });
 
 describe('getTop', () => {
+  const amount = 10;
+  const newRecommendations =
+    recommendationFactory.generateManyRecommendationsRequest(amount);
+
+  const recommendationsResponse = newRecommendations.map(
+    (recommendation, index) => ({
+      id: index + 1,
+      ...recommendation,
+      score: amount - index,
+    })
+  );
+
   it('Should return the top recommendations', async () => {
-    const newRecommendations =
-      recommendationFactory.generateManyRecommendationsRequest(10);
-
-    newRecommendations.map((recommendation, index) => {
-      recommendation.score = index + 1;
-    });
-
     jest
       .spyOn(recommendationRepository, 'getAmountByScore')
-      .mockResolvedValue(newRecommendations as Recommendation[]);
+      .mockResolvedValue(recommendationsResponse);
 
-    const result = await recommendationService.getTop(10);
+    const result = await recommendationService.getTop(amount);
 
-    expect(result).toEqual(newRecommendations);
-    expect(recommendationRepository.getAmountByScore).toHaveBeenCalledTimes(1);
+    expect(result).toEqual(recommendationsResponse);
+    expect(recommendationRepository.getAmountByScore).toHaveBeenCalledWith(
+      amount
+    );
   });
 });
