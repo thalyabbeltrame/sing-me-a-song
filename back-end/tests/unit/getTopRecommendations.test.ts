@@ -1,5 +1,4 @@
 import { jest } from '@jest/globals';
-import { Recommendation } from '@prisma/client';
 
 import { recommendationRepository } from '../../src/repositories/recommendationRepository';
 import { recommendationService } from '../../src/services/recommendationsService';
