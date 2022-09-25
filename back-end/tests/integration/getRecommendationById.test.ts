@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import supertest from 'supertest';
 
-import { app } from '../src/app';
-import { recommendationFactory } from './factories/recommendationFactory';
+import { app } from '../../src/app';
+import { recommendationFactory } from '../factories/recommendationFactory';
 
 const prisma = new PrismaClient();
 
@@ -14,26 +14,24 @@ afterAll(async () => {
   prisma.$disconnect();
 });
 
-describe('POST /recommendations/:id/upvote', () => {
+describe('GET /recommendations/:id', () => {
   const newRecommendation =
     recommendationFactory.generateRecommendationRequest();
 
-  it('Should return 200 and the updated recommendation', async () => {
+  it('Should return 200 and the recommendation', async () => {
     const createdRecommendation =
       await recommendationFactory.insertRecommendationOnDB(newRecommendation);
 
     const response = await supertest(app)
-      .post(`/recommendations/${createdRecommendation.id}/upvote`)
+      .get(`/recommendations/${createdRecommendation.id}`)
       .send();
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ ...createdRecommendation, score: 1 });
+    expect(response.body).toEqual(createdRecommendation);
   });
 
   it('Should return 404 if the recommendation does not exist', async () => {
-    const response = await supertest(app)
-      .post('/recommendations/1/upvote')
-      .send();
+    const response = await supertest(app).get('/recommendations/1').send();
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({

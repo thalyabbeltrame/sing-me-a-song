@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import supertest from 'supertest';
 
-import { app } from '../src/app';
-import { recommendationFactory } from './factories/recommendationFactory';
+import { app } from '../../src/app';
+import { recommendationFactory } from '../factories/recommendationFactory';
 
 const prisma = new PrismaClient();
 
