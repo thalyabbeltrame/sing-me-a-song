@@ -70,6 +70,10 @@ async function remove(id: number) {
   });
 }
 
+async function resetDB() {
+  await prisma.$queryRaw`TRUNCATE TABLE recommendations RESTART IDENTITY CASCADE;`;
+}
+
 export const recommendationRepository = {
   create,
   findAll,
@@ -78,4 +82,5 @@ export const recommendationRepository = {
   updateScore,
   getAmountByScore,
   remove,
+  resetDB,
 };
