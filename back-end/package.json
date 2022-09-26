@@ -4,10 +4,12 @@
   "description": "",
   "main": "./src/server.js",
   "scripts": {
-    "test": "dotenv -e .env.test -- npx prisma migrate dev && dotenv -e .env.test jest -- -i --coverage",
     "build": "npx tsc",
     "dev": "NODE_ENV=dev ts-node-dev --respawn --transpile-only --exit-child --ignore-watch node_modules ./src/server.ts",
-    "start": "node ./dist/server.js"
+    "start": "node ./dist/server.js",
+    "test": "dotenv -e .env.test -- npx prisma migrate dev && dotenv -e .env.test jest -- -i --coverage",
+    "test:unit": "dotenv -e .env.test -- npx prisma migrate dev && dotenv -e .env.test jest -- -i --coverage --testPathPattern=tests/unit",
+    "test:integration": "dotenv -e .env.test -- npx prisma migrate dev && dotenv -e .env.test jest -- -i --testPathPattern=tests/integration"
   },
   "keywords": [],
   "author": "",
